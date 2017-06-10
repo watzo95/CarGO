@@ -30,16 +30,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".SeznamLokacij">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".DodajNovo">
         </activity>
         <activity android:name=".DodajNovoLokacijo">
 
+        </activity>
+        <activity android:name=".GoogleSignInActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
