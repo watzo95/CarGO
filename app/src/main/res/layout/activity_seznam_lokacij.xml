@@ -29,4 +29,15 @@
         android:layout_alignParentEnd="true"
         app:backgroundTint="@android:color/holo_green_dark" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/ic_dialog_map"
+        android:id="@+id/preglej"
+        app:backgroundTint="@android:color/holo_green_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

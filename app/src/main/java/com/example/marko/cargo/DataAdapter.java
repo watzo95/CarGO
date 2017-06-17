@@ -1,12 +1,15 @@
 package com.example.marko.cargo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +29,9 @@ import android.widget.ImageView;
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     DataAll all;
     Activity ac;
-    List<Izdelek> izdelki;
+    public List<Izdelek> izdelki;
+    public static SimpleDateFormat dt = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    Date datum = new Date(System.currentTimeMillis());
     private List<Lokacija> myDataRV = new ArrayList<>();
 
     public DataAdapter(DataAll all, Activity ac) {
@@ -37,6 +42,16 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public DataAdapter(List<Izdelek> izdelki) {
         this.izdelki = izdelki;
     }
+
+    public Double sestejSkupnoCenoNarocila(List<Izdelek> izdelki) {
+        double total = 0.0;
+        String end;
+        for(int i = 0; i < izdelki.size(); i++) {
+            total += Double.parseDouble(izdelki.get(i).getCena().toString()) * Double.parseDouble(izdelki.get(i).getKolicina().toString());
+        }
+        return total;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView txtHeader;
@@ -69,6 +84,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         return vh;
     }
 
+    public void remove(int position) {
+        all.zbrisiLokacijo(position);
+        this.notifyDataSetChanged();
+    }
+
     private static void startDView(String lokacijaID, Activity ac) {
         //  System.out.println(name+":"+position);
         Intent i = new Intent(ac.getBaseContext(), Podrobno.class); //CARE
@@ -81,10 +101,20 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+
+        Double sest = sestejSkupnoCenoNarocila(all.vrniIzdelkeNaLokaciji(position));
+
+        if(sest < 100) {
+            holder.im.setImageResource(R.drawable.small);
+        }
+        else if(sest > 100) {
+            holder.im.setImageResource(R.drawable.big);
+        }
+
         final Lokacija nov = all.getLocation(position);
         final String name = nov.getName();
-        holder.txtHeader.setText(name+" "+nov.getIdUser());
-        holder.txtFooter.setText(nov.getX()+","+nov.getY());
+        holder.txtHeader.setText(name);
+        holder.txtFooter.setText(DateFormat.format("dd.MM.yyyy HH:mm:ss", new Date(nov.getDate())).toString());
 
         holder.txtHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +128,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
                 DataAdapter.startDView(nov.getId(),ac);
             }
         });
+
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

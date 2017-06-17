@@ -36,10 +36,19 @@ public class DataAll {
         return null;
     }
 
+    public List<Izdelek> vrniIzdelkeNaLokaciji(int position) {
+        Lokacija l = this.getLocation(position);
+        return l.getIzdelki();
+    }
+
     public Lokacija dodajLokacijo(String name, long x, long y, String im, Izdelek izd) {
         Lokacija tmp = new Lokacija(name, x,y, me.getIdUser(),"", System.currentTimeMillis(),izd);
         lokacijaList.add(tmp);
         return tmp;
+    }
+
+    public void odstraniLokacijo(int position) {
+        lokacijaList.remove(position);
     }
 
     public Izdelek dodajIzdelek(String naziv, double cena, int kolicina ) {
@@ -110,6 +119,8 @@ public class DataAll {
     public Lokacija getLocation(int i) {
         return lokacijaList.get(i);
     }
+
+    public void zbrisiLokacijo(int i) {lokacijaList.remove(i);}
 
     public List<Lokacija> getLokacijaAll() {
         return lokacijaList;

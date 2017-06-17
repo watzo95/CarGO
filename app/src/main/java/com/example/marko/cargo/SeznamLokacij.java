@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.DataAll;
@@ -19,9 +22,10 @@ import com.example.Lokacija;
 public class SeznamLokacij extends AppCompatActivity {
 
     ApplicationMy app;
+    DataAll da;
     Bundle extras;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private DataAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
@@ -56,8 +60,64 @@ public class SeznamLokacij extends AppCompatActivity {
                 startActivity(i);
             }
         });
-    }
 
+        FloatingActionButton preglej = (FloatingActionButton) findViewById(R.id.preglej);
+        preglej.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), PregledLokacij.class);
+                startActivity(i);
+            }
+        });
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition(); //get position which is swipe
+
+                if (direction == ItemTouchHelper.LEFT) {    //if swipe left
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SeznamLokacij.this); //alert for confirm to delete
+                    builder.setMessage("Ste prepričani, da želite izbrisati lokacijo?");    //set message
+                    builder.setCancelable(true);
+                    builder.setPositiveButton("Odstrani", new DialogInterface.OnClickListener() { //when click on DELETE
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            //mAdapter.notifyItemRemoved(position);    //item removed from recylcerview
+                            //sqldatabase.execSQL("delete from " + TABLE_NAME + " where _id='" + (position + 1) + "'"); //query for delete
+                            //list.remove(position);  //then remove item
+                            mAdapter.remove(position);
+                            app.save();
+                            return;
+                        }
+                    }).show();  //show alert dialog
+                }
+                else if(direction == ItemTouchHelper.RIGHT) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SeznamLokacij.this); //alert for confirm to delete
+                    builder.setMessage("Preimenujte izbrano lokacijo:");    //set message
+                    builder.setCancelable(true);
+                    builder.setPositiveButton("Shrani", new DialogInterface.OnClickListener() { //when click on DELETE
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //mAdapter.notifyItemRemoved(position);    //item removed from recylcerview
+                            //sqldatabase.execSQL("delete from " + TABLE_NAME + " where _id='" + (position + 1) + "'"); //query for delete
+                            //list.remove(position);  //then remove item
+                            //mAdapter.remove(position);
+                            return;
+                        }
+                    }).show();  //show alert dialog
+                }
+            }
+        };
+        ItemTouchHelper ith = new ItemTouchHelper(simpleCallback);
+        ith.attachToRecyclerView(mRecyclerView);
+    }
 
     /*listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
         @Override

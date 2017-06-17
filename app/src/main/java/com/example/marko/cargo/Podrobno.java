@@ -63,7 +63,6 @@ public class Podrobno extends AppCompatActivity {
     Button zakljuci;
     public static String NEW_LOCATION_ID="NEW_LOCATION";
 
-
     public String sestejSkupnoCenoNarocila(List<Izdelek> izdelki) {
         double total = 0.0;
         String end;

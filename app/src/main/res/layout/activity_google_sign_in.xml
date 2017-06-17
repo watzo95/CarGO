@@ -3,7 +3,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_100"
+    android:background="@drawable/map"
     android:orientation="vertical"
     android:weightSum="4">
 
@@ -12,24 +12,31 @@
         android:layout_height="0dp"
         android:layout_weight="3"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <ImageView
-            style="@style/ThemeOverlay.FirebaseIcon"
-            android:id="@+id/google_icon"
-            android:contentDescription="@string/desc_firebase_lockup"
-            android:src="@drawable/firebase_lockup_400"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/title_bottom_margin"
-            android:text="@string/google_title_text"
+            android:layout_marginTop="5dp"
+            android:text="Pozdravljeni v aplikaciji za dostavnike CarGO"
             android:theme="@style/ThemeOverlay.MyTitleText" />
 
+        <ImageView
+            style="@style/ThemeOverlay.FirebaseIcon"
+            android:id="@+id/google_icon"
+            android:contentDescription="@string/desc_firebase_lockup"
+            android:src="@drawable/truck_burned"
+
+            android:layout_width="273dp"
+            android:layout_height="133dp"
+            android:layout_weight="0.26" />
+        <TextView
+            android:id="@+id/basic"
+            style="@style/ThemeOverlay.MyTextDetail"
+            android:text="Za uporabo se prosimo prijavite spodaj:" />
         <TextView
             android:id="@+id/status"
             style="@style/ThemeOverlay.MyTextDetail"
@@ -74,7 +81,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/sign_out"
-                android:theme="@style/ThemeOverlay.MyDarkButton" />
+                android:theme="@style/ThemeOverlay.MyDarkButton"
+                android:backgroundTint="@android:color/holo_orange_dark" />
 
             <Button
                 android:id="@+id/disconnect_button"
@@ -82,7 +90,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/disconnect"
-                android:theme="@style/ThemeOverlay.MyDarkButton" />
+                android:theme="@style/ThemeOverlay.MyDarkButton"
+                android:backgroundTint="@android:color/holo_orange_dark" />
         </LinearLayout>
 
     </RelativeLayout>
