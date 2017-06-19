@@ -98,13 +98,13 @@ public class Podrobno extends AppCompatActivity {
             }
         });
 
-        zakljuci = (Button) findViewById(R.id.button2);
+        /*zakljuci = (Button) findViewById(R.id.button2);
         zakljuci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
-        });
+        });*/
 
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

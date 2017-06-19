@@ -29,6 +29,7 @@ import android.widget.ImageView;
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     DataAll all;
     Activity ac;
+    ApplicationMy app;
     public List<Izdelek> izdelki;
     public static SimpleDateFormat dt = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     Date datum = new Date(System.currentTimeMillis());
@@ -86,6 +87,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     public void remove(int position) {
         all.zbrisiLokacijo(position);
+        //app.save();
         this.notifyDataSetChanged();
     }
 

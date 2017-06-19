@@ -92,7 +92,7 @@
 
 
     <Button
-        android:text="SHRANI IZDELEK"
+        android:text="SHRANI LOKACIJO"
         android:layout_width="215dp"
         android:layout_height="wrap_content"
         android:id="@+id/button1"

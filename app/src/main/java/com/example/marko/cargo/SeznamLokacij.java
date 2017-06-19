@@ -98,7 +98,7 @@ public class SeznamLokacij extends AppCompatActivity {
                         }
                     }).show();  //show alert dialog
                 }
-                else if(direction == ItemTouchHelper.RIGHT) {
+                /*else if(direction == ItemTouchHelper.RIGHT) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SeznamLokacij.this); //alert for confirm to delete
                     builder.setMessage("Preimenujte izbrano lokacijo:");    //set message
                     builder.setCancelable(true);
@@ -112,7 +112,7 @@ public class SeznamLokacij extends AppCompatActivity {
                             return;
                         }
                     }).show();  //show alert dialog
-                }
+                }*/
             }
         };
         ItemTouchHelper ith = new ItemTouchHelper(simpleCallback);

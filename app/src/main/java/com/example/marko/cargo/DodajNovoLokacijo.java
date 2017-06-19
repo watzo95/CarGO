@@ -52,10 +52,10 @@ public class DodajNovoLokacijo extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 long d = System.currentTimeMillis();
-                Izdelek joska = new Izdelek(izdelek_ime.getText().toString(), Double.parseDouble(izdelek_kolicina.getText().toString()), Integer.parseInt(izdelek_cena.getText().toString()));
-                Lokacija loc = new Lokacija(lokacija_ime.getText().toString(), 2212212,113121, "", "", d, joska);
+                Izdelek nov = new Izdelek(izdelek_ime.getText().toString(), Double.parseDouble(izdelek_kolicina.getText().toString()), Integer.parseInt(izdelek_cena.getText().toString()));
+                Lokacija loc = new Lokacija(lokacija_ime.getText().toString(), 2212212,113121, "", "", d, nov);
                 //da.dodajLokacijo(new Lokacija(lokacija_ime.getText().toString(), 2212212,113121, "", "",System.currentTimeMillis(), new Izdelek(izdelek_ime.getText().toString(), Double.parseDouble(izdelek_kolicina.getText().toString()), Integer.parseInt(izdelek_cena.getText().toString())));
-                da.dodajLokacijo(lokacija_ime.getText().toString(), 2212212,113121, "", joska);
+                da.dodajLokacijo(lokacija_ime.getText().toString(), 2212212,113121, "", nov);
                 app.save();
                 //Lokacija l = app.getLocationByID(lol);
                 //l.vstavi(new Izdelek(name.getText().toString(), Double.parseDouble(quantity.getText().toString()), Integer.parseInt(price.getText().toString())));

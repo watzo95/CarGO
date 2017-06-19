@@ -128,10 +128,10 @@ public class PregledLokacij extends FragmentActivity implements OnMapReadyCallba
         /*mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Lokacija x = (Lokacija)marker.getTag();
-                String id = x.getId();
+                //Lokacija x = (Lokacija)marker.getTag();
+                //String id = x.getId();
                 Intent i = new Intent(getBaseContext(), Podrobno.class);
-                i.putExtra("Nekaj", extras.getString(id));
+                //i.putExtra("Nekaj", extras.getString(id));
                 startActivity(i);
                 return true;
             }
