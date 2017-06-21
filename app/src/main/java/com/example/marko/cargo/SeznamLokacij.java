@@ -98,7 +98,6 @@ public class SeznamLokacij extends AppCompatActivity {
                     builder.setPositiveButton("Odstrani", new DialogInterface.OnClickListener() { //when click on DELETE
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                             //mAdapter.notifyItemRemoved(position);    //item removed from recylcerview
                             //sqldatabase.execSQL("delete from " + TABLE_NAME + " where _id='" + (position + 1) + "'"); //query for delete
                             //list.remove(position);  //then remove item
@@ -106,6 +105,12 @@ public class SeznamLokacij extends AppCompatActivity {
                             //mAdapter.notifyDataSetChanged();
                             mRecyclerView.setAdapter(mAdapter);
                             app.save();
+                            return;
+                        }
+                    }).setNegativeButton("Prekliči", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mRecyclerView.setAdapter(mAdapter);
                             return;
                         }
                     }).show();  //show alert dialog
@@ -130,7 +135,13 @@ public class SeznamLokacij extends AppCompatActivity {
                             app.save();
                             return;
                         }
-                    }).show();  //show alert dialog
+                    }).setNegativeButton("Prekliči", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mRecyclerView.setAdapter(mAdapter);
+                        return;
+                    }
+                }).show();  //show alert dialog.show();  //show alert dialog
                 }
             }
         };

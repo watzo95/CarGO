@@ -46,7 +46,7 @@ public class DodajNovo extends AppCompatActivity{
         stateNew = false;
         context = this;
 
-        Toast.makeText(context, getIntent().getExtras().getString("Nekaj"),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, getIntent().getExtras().getString("Nekaj"),Toast.LENGTH_SHORT).show();
         dodaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
