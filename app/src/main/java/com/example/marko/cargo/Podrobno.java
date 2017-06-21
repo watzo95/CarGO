@@ -16,6 +16,7 @@ import com.example.Izdelek;
 import com.example.Lokacija;
 import com.example.marko.cargo.ApplicationMy;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -63,12 +64,20 @@ public class Podrobno extends AppCompatActivity {
     Button zakljuci;
     public static String NEW_LOCATION_ID="NEW_LOCATION";
 
+    public double roundTwoDecimals(double d)
+    {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
+    }
+
     public String sestejSkupnoCenoNarocila(List<Izdelek> izdelki) {
         double total = 0.0;
         String end;
         for(int i = 0; i < izdelki.size(); i++) {
             total += Double.parseDouble(izdelki.get(i).getCena().toString()) * Double.parseDouble(izdelki.get(i).getKolicina().toString());
         }
+
+        //double nova = roundTwoDecimals(total);
         end = Double.toString(total);
         return end;
     }
@@ -84,6 +93,7 @@ public class Podrobno extends AppCompatActivity {
         stateNew = false;
         extras = getIntent().getExtras();
         context = this;
+        da = app.getAll();
         setLokacija(extras.getString(DataAll.LOKACIJA_ID));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -98,13 +108,16 @@ public class Podrobno extends AppCompatActivity {
             }
         });
 
-        /*zakljuci = (Button) findViewById(R.id.button2);
+        zakljuci = (Button) findViewById(R.id.button2);
         zakljuci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                da.zakljuciDostavo(l.getId());
+                Toast.makeText(context,"Zaključeno.",Toast.LENGTH_SHORT).show();
+                app.save();
+                finish();
             }
-        });*/
+        });
 
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

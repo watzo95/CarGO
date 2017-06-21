@@ -4,7 +4,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingRight="16dp"
+    android:background="@drawable/map"
+    >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,41 +14,8 @@
         android:id="@+id/textView"
         android:ellipsize="marquee"
         android:layout_margin="5dp"
-        android:textSize="25sp"/>
-
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/skupnaCena"
-        android:layout_above="@+id/fab">
-    </ListView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        app:fabSize="normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="15dp"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        app:backgroundTint="@android:color/holo_green_dark"
-        app:rippleColor="@android:color/holo_orange_light" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="skupna cena"
-        android:id="@+id/skupnaCena"
-        android:ellipsize="marquee"
-        android:textSize="15sp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_below="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
+        android:textSize="25sp"
+        android:textStyle="bold|italic"/>
 
     <Button
         android:text="ZAKLJUČI DOSTAVO"
@@ -54,7 +23,43 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/fab"
         android:id="@+id/button2"
-        android:layout_alignStart="@+id/skupnaCena" />
+        android:layout_alignStart="@+id/textView" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="@android:color/holo_orange_light"
+        app:rippleColor="@android:color/holo_orange_light"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="13dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/skupnaCena"
+        android:layout_alignParentStart="true">
+    </ListView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="skupna cena"
+        android:id="@+id/skupnaCena"
+        android:ellipsize="marquee"
+        android:textSize="20sp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textStyle="bold|italic"
+        android:layout_below="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
 
 
 </RelativeLayout>

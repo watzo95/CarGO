@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/title_bottom_margin"
             android:layout_marginTop="5dp"
+            android:textStyle="bold|italic"
             android:text="Pozdravljeni v aplikaciji za dostavnike CarGO"
             android:theme="@style/ThemeOverlay.MyTitleText" />
 
@@ -33,10 +34,7 @@
             android:layout_width="273dp"
             android:layout_height="133dp"
             android:layout_weight="0.26" />
-        <TextView
-            android:id="@+id/basic"
-            style="@style/ThemeOverlay.MyTextDetail"
-            android:text="Za uporabo se prosimo prijavite spodaj:" />
+
         <TextView
             android:id="@+id/status"
             style="@style/ThemeOverlay.MyTextDetail"
@@ -93,6 +91,13 @@
                 android:theme="@style/ThemeOverlay.MyDarkButton"
                 android:backgroundTint="@android:color/holo_orange_dark" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/basic"
+            style="@style/ThemeOverlay.MyTextDetail"
+            android:text="Za uporabo se prosimo prijavite spodaj:"
+            android:layout_above="@+id/sign_out_and_disconnect"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 

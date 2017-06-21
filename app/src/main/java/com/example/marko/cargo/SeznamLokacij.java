@@ -1,8 +1,15 @@
 package com.example.marko.cargo;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.InputType;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,13 +35,14 @@ public class SeznamLokacij extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private DataAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (ApplicationMy) getApplication();
         setContentView(R.layout.activity_seznam_lokacij);
-
+        context = this;
         mRecyclerView = (RecyclerView) findViewById(R.id.my_rv);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -70,7 +79,8 @@ public class SeznamLokacij extends AppCompatActivity {
             }
         });
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -93,13 +103,18 @@ public class SeznamLokacij extends AppCompatActivity {
                             //sqldatabase.execSQL("delete from " + TABLE_NAME + " where _id='" + (position + 1) + "'"); //query for delete
                             //list.remove(position);  //then remove item
                             mAdapter.remove(position);
+                            //mAdapter.notifyDataSetChanged();
+                            mRecyclerView.setAdapter(mAdapter);
                             app.save();
                             return;
                         }
                     }).show();  //show alert dialog
                 }
-                /*else if(direction == ItemTouchHelper.RIGHT) {
+                else if(direction == ItemTouchHelper.RIGHT) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SeznamLokacij.this); //alert for confirm to delete
+                    final EditText vnos = new EditText(context);
+                    vnos.setInputType(InputType.TYPE_CLASS_TEXT);
+                    builder.setView(vnos);
                     builder.setMessage("Preimenujte izbrano lokacijo:");    //set message
                     builder.setCancelable(true);
                     builder.setPositiveButton("Shrani", new DialogInterface.OnClickListener() { //when click on DELETE
@@ -109,10 +124,14 @@ public class SeznamLokacij extends AppCompatActivity {
                             //sqldatabase.execSQL("delete from " + TABLE_NAME + " where _id='" + (position + 1) + "'"); //query for delete
                             //list.remove(position);  //then remove item
                             //mAdapter.remove(position);
+                            String bla = vnos.getText().toString();
+                            app.getAll().getLocation(position).setName(bla);
+                            mAdapter.notifyDataSetChanged();
+                            app.save();
                             return;
                         }
                     }).show();  //show alert dialog
-                }*/
+                }
             }
         };
         ItemTouchHelper ith = new ItemTouchHelper(simpleCallback);

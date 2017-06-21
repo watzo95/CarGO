@@ -36,6 +36,15 @@ public class DataAll {
         return null;
     }
 
+    public void zakljuciDostavo(String ID) {
+        for(int i = 0; i < lokacijaList.size(); i++) {
+            if(lokacijaList.get(i).getId().equals(ID)) {
+                lokacijaList.remove(i);
+                break;
+            }
+        }
+    }
+
     public List<Izdelek> vrniIzdelkeNaLokaciji(int position) {
         Lokacija l = this.getLocation(position);
         return l.getIzdelki();
