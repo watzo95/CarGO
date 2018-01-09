@@ -4,6 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +20,10 @@ import com.example.Izdelek;
 import com.example.Lokacija;
 import com.example.marko.cargo.ApplicationMy;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,12 +31,16 @@ import java.util.HashMap;
 import java.util.List;
 import com.example.marko.cargo.ListAdapter;
 import com.example.marko.cargo.ApplicationMy;
+import com.google.android.gms.maps.model.LatLng;
+import com.squareup.picasso.Picasso;
 
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -54,6 +66,7 @@ public class Podrobno extends AppCompatActivity {
     EditText editKolicina;
     EditText editCena;
     TextView skupna_cena;
+    WebView streetView;
     DataAll da;
     boolean stateNew;
     String ID;
@@ -63,6 +76,7 @@ public class Podrobno extends AppCompatActivity {
     List<Izdelek> arrayList;
     Button zakljuci;
     public static String NEW_LOCATION_ID="NEW_LOCATION";
+    private Bitmap bitmap;
 
     public double roundTwoDecimals(double d)
     {
@@ -94,7 +108,19 @@ public class Podrobno extends AppCompatActivity {
         extras = getIntent().getExtras();
         context = this;
         da = app.getAll();
+
+        streetView = (WebView) findViewById(R.id.streetView);
+
         setLokacija(extras.getString(DataAll.LOKACIJA_ID));
+
+        //SLIKA GOOGLE STREET VIEW
+
+
+        //LatLng koordinate = getLocationFromAddress(this,l.getName());
+        //String url = "https://maps.googleapis.com/maps/api/streetview?size=300x200&location="+ koordinate.latitude + "," + koordinate.longitude + "&heading=151.78&pitch=-0.76&key=AIzaSyBI9itNcBRoKzNAli1ltHf1qvF7m2mrYKU";
+        //bitmap = loadImageFromURL(url);
+        //streetView.setImageBitmap(bitmap);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +244,10 @@ public class Podrobno extends AppCompatActivity {
         loc.setText(""+l.getName());
         arrayList = new ArrayList<Izdelek>();
         arrayList = l.getIzdelki();
-
+        LatLng koordinate = getLocationFromAddress(this,l.getName());
+        String url = "http://maps.googleapis.com/maps/api/streetview?size=325x300&location="+koordinate.latitude+","+koordinate.longitude+"&heading=151.78&pitch=-0.76&key=AIzaSyBI9itNcBRoKzNAli1ltHf1qvF7m2mrYKU";
+        //Picasso.with(this).load("http://maps.googleapis.com/maps/api/streetview?size=200x300&location="+koordinate.latitude+","+koordinate.longitude+"&heading=151.78&pitch=-0.76&key=AIzaSyBI9itNcBRoKzNAli1ltHf1qvF7m2mrYKU").into(streetView);
+        streetView.loadUrl(url);
         /*arrayList.add(new Izdelek("Fidget Spinner", 24.95, 1));
         arrayList.add(new Izdelek("Fidget Spinner", 24.95, 2));
         arrayList.add(new Izdelek("Fidget Spinner", 24.95, 3));
@@ -233,5 +262,49 @@ public class Podrobno extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(adapter);
+    }
+
+    public Bitmap loadImageFromURL(String url) {
+        //String url1 = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location=46.414382,10.013988&heading=151.78&pitch=-0.76&key=AIzaSyBI9itNcBRoKzNAli1ltHf1qvF7m2mrYKU";
+        try {
+            URL urladd = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection)urladd.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap mybit = BitmapFactory.decodeStream(input);
+            return mybit;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public LatLng getLocationFromAddress(Context context, String strAddress)
+    {
+        Geocoder coder= new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try
+        {
+            address = coder.getFromLocationName(strAddress, 5);
+            if(address==null)
+            {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return p1;
+
     }
 }

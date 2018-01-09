@@ -60,6 +60,7 @@ public class PregledLokacij extends FragmentActivity implements OnMapReadyCallba
     Lokacija lok;
     Bundle extras;
     private Boolean EMULATOR;
+    private TextView koncnaRazdalja;
 
     //TSP
 
@@ -99,6 +100,7 @@ public class PregledLokacij extends FragmentActivity implements OnMapReadyCallba
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        koncnaRazdalja = (TextView) findViewById(R.id.final_distance);
         //addDrawerItems(R.array.menuItems, mDrawerList);
         //mDrawerList.setOnItemClickListener(new SideDrawerClickListener());
 
@@ -337,6 +339,7 @@ public class PregledLokacij extends FragmentActivity implements OnMapReadyCallba
             Tour currentBest = tours[0];
             graphMap(currentBest);
             System.out.println("Current distance: " + currentBest.getDistance());
+
         }
 
         @Override
@@ -347,9 +350,9 @@ public class PregledLokacij extends FragmentActivity implements OnMapReadyCallba
             System.out.println("GA Final distance: " + pop.getFittest().getDistance());
 
             // Display final distance
-            //TextView tv1 = (TextView) findViewById(R.id.final_distance);
+            TextView tv1 = (TextView) findViewById(R.id.final_distance);
             int finalDistance = (int) pop.getFittest().getDistance();
-            //tv1.setText("FINAL DISTANCE: " + finalDistance + " km");
+            tv1.setText("Optimalna pot: " + finalDistance + " km");
 
             //change color of button to indicate finish
             //Button GA_button = (Button) findViewById(R.id.graphGAButton);
