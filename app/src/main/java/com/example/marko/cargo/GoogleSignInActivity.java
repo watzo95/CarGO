@@ -1,5 +1,7 @@
 package com.example.marko.cargo;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 
 /**
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -47,6 +50,7 @@ public class GoogleSignInActivity extends BaseActivity implements
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private TextView mDetailTextView;
+    private VideoView animacijaview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,17 @@ public class GoogleSignInActivity extends BaseActivity implements
         // Views
         mStatusTextView = (TextView) findViewById(R.id.status);
         mDetailTextView = (TextView) findViewById(R.id.detail);
+        animacijaview = (VideoView) findViewById(R.id.animacija);
+        animacijaview.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.animacija));
+
+        animacijaview.start();
+
+        animacijaview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
 
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);

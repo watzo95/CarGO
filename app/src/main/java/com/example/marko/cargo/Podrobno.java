@@ -6,49 +6,49 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.example.DataAll;
 import com.example.Izdelek;
 import com.example.Lokacija;
-import com.example.marko.cargo.ApplicationMy;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import com.example.marko.cargo.ListAdapter;
-import com.example.marko.cargo.ApplicationMy;
+
 import com.google.android.gms.maps.model.LatLng;
-import com.squareup.picasso.Picasso;
 
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.io.File;
 
-import org.w3c.dom.Text;
-
-import static java.lang.System.in;
+import static com.example.marko.cargo.DCT.filesize;
+import static com.example.marko.cargo.DCT.inverseDCT;
+import static com.example.marko.cargo.DCT.reverseZigZag;
 
 /**
  * Created by marko on 29. 05. 2017.
@@ -77,6 +77,17 @@ public class Podrobno extends AppCompatActivity {
     Button zakljuci;
     public static String NEW_LOCATION_ID="NEW_LOCATION";
     private Bitmap bitmap;
+    static final int CAM_REQUEST = 1;
+    static final int CROP_REQUEST =2;
+
+    private File getFile() {
+        File folder = new File("sdcard/narocila");
+        if(!folder.exists()) {
+            folder.mkdir();
+        }
+        File image = new File(folder,"narocilo.jpg");
+        return image;
+    }
 
     public double roundTwoDecimals(double d)
     {
@@ -113,6 +124,89 @@ public class Podrobno extends AppCompatActivity {
 
         setLokacija(extras.getString(DataAll.LOKACIJA_ID));
 
+        /*DCT alg = new DCT();
+        byte[] buffer = null;
+        ArrayList<ArrayList<double[]>> fromFile;
+        ArrayList<ArrayList<double[][]>> barve = new ArrayList<>();
+        int vrstica=0;
+        int stolpec=0;
+        int rdeca = 0;
+        int zelena = 0;
+        int modra = 0;
+        double[][] rdeca_param;
+        double[][] zelena_param;
+        double[][] modra_param;
+        Color nova = new Color();
+        try {
+            File f = new File("sdcard/narocila/narocilo.bin");
+            buffer = new byte[(int)f.length()];
+            new FileInputStream(f).read(buffer);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        fromFile = alg.DecodeDCT(buffer);
+        int ii = 0;
+        while(ii<fromFile.size()){
+            ArrayList<double[][]> zacasna = new ArrayList<>();
+            int jj = 0;
+            while(jj<fromFile.get(ii).size()){
+                zacasna.add(inverseDCT(reverseZigZag(fromFile.get(ii).get(jj))));
+                jj++;
+            }
+            barve.add(zacasna);
+            ii++;
+        }
+        int dolzina = (int)Math.sqrt(barve.get(0).size()) * 8;
+        Bitmap picture = Bitmap.createBitmap(dolzina, dolzina, Bitmap.Config.RGB_565);
+
+        for(int jj=0; jj<barve.get(0).size(); jj++){
+            rdeca_param = barve.get(0).get(jj);
+            zelena_param = barve.get(1).get(jj);
+            modra_param = barve.get(2).get(jj);
+            for(int sirina=0; sirina<8; sirina++){
+                for(int visina=0; visina<8; visina++){
+                    rdeca = (int)rdeca_param[sirina][visina];
+                    zelena = (int)zelena_param[sirina][visina];
+                    modra = (int)modra_param[sirina][visina];
+                    if(rdeca < 0){
+                        rdeca = 0;
+                    }
+                    else if(rdeca > 255){
+                        rdeca = 255;
+                    }
+                    if(zelena < 0){
+                        zelena = 0;
+                    }
+                    else if(zelena > 255){
+                        zelena = 255;
+                    }
+                    if(modra < 0){
+                        modra = 0;
+                    }
+                    else if(modra > 255) {
+                        modra = 255;
+                    }
+                    picture.setPixel(vrstica+sirina, stolpec+visina,Color.rgb(rdeca,zelena,modra));
+                }
+            }
+            vrstica = vrstica + 8;
+            if(vrstica == dolzina){
+                vrstica = 0;
+                stolpec = stolpec + 8;
+            }
+        }
+        File f = new File("sdcard/narocila/compressed.jpg");
+        //showMessageDialog(null,"Odzipano");
+        try {
+            OutputStream os = new FileOutputStream(f);
+            picture.compress(Bitmap.CompressFormat.JPEG, 100,os);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }*/
+
         //SLIKA GOOGLE STREET VIEW
 
 
@@ -131,6 +225,17 @@ public class Podrobno extends AppCompatActivity {
                 Intent i = new Intent(getBaseContext(), DodajNovo.class);
                 i.putExtra("Nekaj", extras.getString(DataAll.LOKACIJA_ID));
                 startActivity(i);
+            }
+        });
+
+        FloatingActionButton camera = (FloatingActionButton) findViewById(R.id.camera);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = getFile();
+                i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                startActivityForResult(i,CAM_REQUEST);
             }
         });
 
@@ -305,6 +410,71 @@ public class Podrobno extends AppCompatActivity {
             e.printStackTrace();
         }
         return p1;
+
+    }
+
+    private void cropPic() {
+        Intent crop = new Intent("com.android.camera.action.CROP");
+        crop.putExtra("crop",true);
+        crop.putExtra("aspectX",1);
+        crop.putExtra("aspectY",1);
+        crop.putExtra("outputX",1);
+        crop.putExtra("outputY",1);
+        crop.putExtra("return-data",true);
+        startActivityForResult(crop,CROP_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ArrayList<double[][]> R = new ArrayList<>();
+        ArrayList<double[][]> G = new ArrayList<>();
+        ArrayList<double[][]> B = new ArrayList<>();
+        ArrayList<ArrayList<double[][]>> all = new ArrayList<>();
+        ArrayList<double[]> zaZapis = new ArrayList<>();
+        DCT alg = new DCT();
+
+        Bitmap bmp = BitmapFactory.decodeFile("sdcard/narocila/narocilo.jpg");
+        Bitmap bmp1 = Bitmap.createScaledBitmap(bmp, 1024, 1024, false);
+
+        R = alg.split(bmp1, "r");
+        G = alg.split(bmp1, "g");
+        B = alg.split(bmp1, "b");
+
+        all.add(R);
+        all.add(G);
+        all.add(B);
+
+        int i = 0;
+        while (i < all.size()) {
+            int s = all.get(i).size();
+            for (int j = 0; j < s; j++) {
+                all.get(i).set(j, alg.forwardDCT(all.get(i).get(j)));
+            }
+            i++;
+        }
+
+        for (int m = 0; m < all.size(); m++) {
+            int count = 0;
+
+            double[] ins;
+            int s = all.get(m).size() * 8 * 8;
+            ins = new double[s];
+            int s1 = all.get(m).size();
+            for (int n = 0; n < s1; n++) {
+                double[][] xx = all.get(m).get(n);
+                double[] bar = alg.ZigZag(xx);
+                int o = 0;
+                while (o < bar.length) {
+                    ins[count] = bar[o];
+                    count++;
+                    o++;
+                }
+            }
+            zaZapis.add(ins);
+        }
+        Toast.makeText(getApplicationContext(), "Size before: " + filesize + " bits", Toast.LENGTH_LONG);
+        alg.EncodeDCT(zaZapis);
+        Toast.makeText(getApplicationContext(), "Encoded.", Toast.LENGTH_SHORT);
 
     }
 }

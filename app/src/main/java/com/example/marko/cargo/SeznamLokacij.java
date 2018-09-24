@@ -3,6 +3,7 @@ package com.example.marko.cargo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -26,6 +27,14 @@ import android.widget.Toast;
 
 import com.example.DataAll;
 import com.example.Lokacija;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class SeznamLokacij extends AppCompatActivity {
 

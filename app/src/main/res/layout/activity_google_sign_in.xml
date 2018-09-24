@@ -15,25 +15,13 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-        <TextView
-            android:id="@+id/title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/title_bottom_margin"
-            android:layout_marginTop="5dp"
-            android:textStyle="bold|italic"
-            android:text="Pozdravljeni v aplikaciji za dostavnike CarGO"
-            android:theme="@style/ThemeOverlay.MyTitleText" />
-
-        <ImageView
+        <VideoView
             style="@style/ThemeOverlay.FirebaseIcon"
-            android:id="@+id/google_icon"
+            android:id="@+id/animacija"
             android:contentDescription="@string/desc_firebase_lockup"
-            android:src="@drawable/truck_burned"
-
-            android:layout_width="273dp"
-            android:layout_height="133dp"
-            android:layout_weight="0.26" />
+            android:layout_width="366dp"
+            android:layout_height="200dp"
+            android:layout_weight="0.28" />
 
         <TextView
             android:id="@+id/status"
